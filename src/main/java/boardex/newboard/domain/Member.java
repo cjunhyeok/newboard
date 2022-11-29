@@ -6,11 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
-public class Member {
+public class Member extends BaseEntity{
 
     @Id @GeneratedValue
     @Column(name = "member_id")
@@ -23,7 +22,5 @@ public class Member {
     private String name;
     private String address;
     private String birthday;
-    private LocalDateTime createdDate;
-    private LocalDateTime lastModifiedDate;
 
 }
