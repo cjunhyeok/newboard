@@ -2,7 +2,6 @@ package boardex.newboard.domain;
 
 import lombok.Getter;
 
-import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class BaseEntity {
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 }

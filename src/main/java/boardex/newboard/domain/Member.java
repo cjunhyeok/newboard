@@ -23,4 +23,21 @@ public class Member extends BaseEntity{
     private String address;
     private String birthday;
 
+    public Member() {
+    }
+
+    public Member(String userId, String userPassword, String nickName, String name, String address, String birthday) {
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.nickName = nickName;
+        this.name = name;
+        this.address = address;
+        this.birthday = birthday;
+    }
+
+    public void simpleMember(String userId, String userPassword, String nickName){
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.nickName = nickName;
+    }
 }
