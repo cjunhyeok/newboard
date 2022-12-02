@@ -9,4 +9,5 @@ public interface PostService {
     Long savePost(Post post);
 
     List<Post> findAll();
+
 }

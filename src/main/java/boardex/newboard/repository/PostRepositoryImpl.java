@@ -30,4 +30,6 @@ public class PostRepositoryImpl implements PostRepository{
         return em.find(Post.class, postId);
     }
 
+    // 동적쿼리는 차후 querydsl로 사용
+
 }

@@ -28,14 +28,18 @@ class CommentServiceImplTest {
         // given
         Member member = new Member();
         member.simpleMember("id1", "pass1", "nickname1");
+
         Post post = new Post("title1", "content1", member);
+        Post post2 = new Post("title2", "content2", member);
+
         Comment comment = new Comment("content1", post, member);
         Comment comment2 = new Comment("content2", post, member);
-        Comment comment3 = new Comment("content3", post, member);
+        Comment comment3 = new Comment("content3", post2, member);
 
         // when
-        Long postId = postService.savePost(post);
         memberService.join(member);
+        Long postId = postService.savePost(post);
+        postService.savePost(post2);
         commentService.saveComment(comment);
         commentService.saveComment(comment2);
         commentService.saveComment(comment3);
@@ -43,7 +47,7 @@ class CommentServiceImplTest {
         List<Comment> displayComment = commentService.displayComment(postId);
 
         // then
-        assertEquals(3, displayComment.size());
+        assertEquals(2, displayComment.size());
 
     }
 

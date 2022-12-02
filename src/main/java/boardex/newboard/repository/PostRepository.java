@@ -12,5 +12,4 @@ public interface PostRepository {
 
     Post findById(Long postId);
 
-
 }
