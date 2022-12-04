@@ -14,6 +14,6 @@ public interface MemberRepository {
 
     List<Member> findByNickName(String nickName);
 
-    Member findByUserId(Long userId);
+    Member findByUserId(String userId);
 
 }

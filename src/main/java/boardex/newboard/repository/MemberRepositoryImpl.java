@@ -44,7 +44,7 @@ public class MemberRepositoryImpl implements MemberRepository{
 
     // 회원 Id로 찾기
     @Override
-    public Member findByUserId(Long userId) {
+    public Member findByUserId(String userId) {
         return em.createQuery("select m from Member m where m.userId = :userId", Member.class)
                 .setParameter("userId", userId)
                 .getSingleResult();

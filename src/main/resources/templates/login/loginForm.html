@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+</head>
+<body>
+
+<div>
+    <form role="form" action="/login" th:object="${loginForm}" method="post">
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+        </div>
+        <div>
+            <label th:for="userId">Id</label>
+            <input type="text" th:field="*{userId}" placeholder="Id를 입력하세요">
+            <div th:errors="*{userId}">
+                아이디 오류
+            </div>
+        </div>
+        <div>
+            <label th:for="userPassword">비밀번호</label>
+            <input type="text" th:field="*{userPassword}" placeholder="비밀번호를 입력하세요">
+            <div th:errors="*{userPassword}">
+                비밀번호 오류
+            </div>
+        </div>
+        <div>
+            <button type="submit">로그인</button>
+        </div>
+        <div>
+            <button onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/}'|"
+                    type="button">취소</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

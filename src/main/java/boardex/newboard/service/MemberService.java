@@ -10,5 +10,9 @@ public interface MemberService {
 
     List<Member> findMembers();
 
-    Member findByUserId(Long userId);
+    Member findByUserId(String userId);
+
+    void updateMember(Long memberId, Member member);
+
+    Member login(String userId, String userPassword);
 }

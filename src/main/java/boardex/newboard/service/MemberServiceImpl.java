@@ -36,8 +36,26 @@ public class MemberServiceImpl implements MemberService{
 
     // UserId 찾기
     @Override
-    public Member findByUserId(Long userId) {
+    public Member findByUserId(String userId) {
         return memberRepository.findByUserId(userId);
+    }
+
+    // merge가 아닌 변경감지 사용
+    @Override
+    public void updateMember(Long memberId, Member member) {
+        Member findMember = memberRepository.findById(memberId);
+        findMember.simpleMember(member.getUserId(), member.getUserPassword(), member.getNickName());
+    }
+
+    @Override
+    public Member login(String userId, String userPassword) {
+        Member findMember = memberRepository.findByUserId(userId);
+
+        if (findMember.getUserPassword().equals(userPassword)) {
+            return findMember;
+        } else{
+            return null;
+        }
     }
 
     private void validateDuplicateMember(Member member) {

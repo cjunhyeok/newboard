@@ -7,30 +7,39 @@
 <body>
 
 <div>
-  <form role="form" action="" th:object="${memberFrom}" method="post">
+  <form role="form" action="/members/new" th:object="${memberForm}" method="post">
     <div>
         <label th:for="userId">Id</label>
-        <input type="text" th:field="*{userId}" class="form-control" placeholder="Id를 입력하세요">
-</div>
+        <input type="text" th:field="*{userId}" placeholder="Id를 입력하세요">
+        <div th:errors="*{userId}">
+            아이디 오류
+        </div>
+    </div>
       <div>
           <label th:for="userPassword">비밀번호</label>
-          <input type="text" th:field="*{userPassword}" class="form-control" placeholder="비밀번호를 입력하세요">
+          <input type="text" th:field="*{userPassword}" placeholder="비밀번호를 입력하세요">
+          <div th:errors="*{userPassword}">
+              비밀번호 오류
+          </div>
       </div>
       <div>
           <label th:for="nickName">닉네임</label>
-          <input type="text" th:field="*{nickName}" class="form-control" placeholder="닉네임을 입력하세요">
+          <input type="text" th:field="*{nickName}" placeholder="닉네임을 입력하세요">
+          <div th:errors="*{nickName}">
+              닉네임 오류
+          </div>
       </div>
       <div>
           <label th:for="name">이름</label>
-          <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요">
+          <input type="text" th:field="*{name}" placeholder="이름을 입력하세요">
       </div>
       <div>
           <label th:for="address">주소</label>
-          <input type="text" th:field="*{address}" class="form-control" placeholder="주소를 입력하세요">
+          <input type="text" th:field="*{address}" placeholder="주소를 입력하세요">
       </div>
       <div>
           <label th:for="birthday">생년월일</label>
-          <input type="text" th:field="*{birthday}" class="form-control" placeholder="생년월일을 입력하세요">
+          <input type="text" th:field="*{birthday}" placeholder="생년월일을 입력하세요">
       </div>
       <button type="submit">Submit</button>
   </form>
