@@ -12,4 +12,8 @@ public interface PostRepository {
 
     Post findById(Long postId);
 
+    Post findFetchMember(Long postId);
+
+    List<Post> findAllFetch();
+
 }

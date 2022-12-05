@@ -30,6 +30,19 @@ public class PostRepositoryImpl implements PostRepository{
         return em.find(Post.class, postId);
     }
 
+    @Override
+    public Post findFetchMember(Long postId) {
+        return em.createQuery("select p from Post p join fetch p.member m where p.id = :postId", Post.class)
+                .setParameter("postId", postId)
+                .getSingleResult();
+    }
+
+    @Override
+    public List<Post> findAllFetch() {
+        return em.createQuery("select p from Post p join fetch p.member", Post.class)
+                .getResultList();
+    }
+
     // 동적쿼리는 차후 querydsl로 사용
 
 }

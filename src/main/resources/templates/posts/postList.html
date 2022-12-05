@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원목록</title>
+</head>
+<body>
+
+<div>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Id</th>
+        <th>비밀번호</th>
+        <th>닉네임</th>
+        <th>이름</th>
+        <th>주소</th>
+        <th>주민번호</th>
+        <br>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post : ${posts}">
+        <td th:text="${post.member.nickName}"></td>
+        <td th:text="${post.title}"></td>
+        <td th:text="${post.content}"></td>
+        <td th:text="${post.lastModifiedDate}"></td>
+        <br>
+    </tr>
+    </tbody>
+</div>
+</body>
+</html>

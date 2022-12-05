@@ -10,4 +10,12 @@ public interface PostService {
 
     List<Post> findAll();
 
+    void updatePost(Long postId);
+
+    Post findById(Long postId);
+
+    Post findFetchMember(Long postId);
+
+    List<Post> findAllFetch();
+
 }

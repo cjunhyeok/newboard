@@ -21,6 +21,7 @@ public class PostServiceImpl implements PostService{
 
 
     @Override
+    @Transactional
     public Long savePost(Post post) {
         postRepository.save(post);
         return post.getId();
@@ -30,4 +31,26 @@ public class PostServiceImpl implements PostService{
     public List<Post> findAll() {
         return postRepository.findAll();
     }
+
+    @Override
+    @Transactional
+    public void updatePost(Long postId) {
+
+    }
+
+    @Override
+    public Post findById(Long postId) {
+        return postRepository.findById(postId);
+    }
+
+    @Override
+    public Post findFetchMember(Long postId) {
+        return postRepository.findFetchMember(postId);
+    }
+
+    @Override
+    public List<Post> findAllFetch() {
+        return postRepository.findAllFetch();
+    }
+
 }

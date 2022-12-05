@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+
+<div>
+  <form role="form" action="/posts/new" th:object="${postForm}" method="post">
+    <div>
+        <label th:for="title">제목</label>
+        <input type="text" th:field="*{title}" placeholder="제목을 입력하세요">
+        <div th:errors="*{title}">
+            아이디 오류
+        </div>
+    </div>
+      <div>
+          <label th:for="content">게시글 내용</label>
+          <input type="text" th:field="*{content}" placeholder="게시글을 입력하세요">
+          <div th:errors="*{content}">
+              비밀번호 오류
+          </div>
+      </div>
+      <button type="submit">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>
