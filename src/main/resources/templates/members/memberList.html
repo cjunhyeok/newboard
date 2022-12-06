@@ -27,6 +27,9 @@
         <td th:text="${member.name}"></td>
         <td th:text="${member.address}"></td>
         <td th:text="${member.birthday}"></td>
+        <td>
+            <a href="#" th:href="@{/members/{id}/edit (id=${member.id})}" th:if="${member.id == session.loginMember.id}" role="button">수정</a>
+        </td>
         <br>
     </tr>
     </tbody>

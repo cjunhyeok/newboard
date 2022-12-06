@@ -25,6 +25,9 @@
         <td th:text="${post.title}"></td>
         <td th:text="${post.content}"></td>
         <td th:text="${post.lastModifiedDate}"></td>
+        <td>
+            <a href="#" th:href="@{/posts/{id}/edit (id=${post.id})}" th:if="${post.member.id == session.loginMember.id}" role="button">수정</a>
+        </td>
         <br>
     </tr>
     </tbody>
