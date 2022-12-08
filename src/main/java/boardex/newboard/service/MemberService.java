@@ -15,4 +15,6 @@ public interface MemberService {
     void updateMember(Long memberId, Member member);
 
     Member login(String userId, String userPassword);
+
+    Member findById(Long memberId);
 }

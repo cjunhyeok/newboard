@@ -30,6 +30,7 @@ public class PostController {
         this.postService = postService;
     }
 
+
     @GetMapping("/posts/new")
     public String savePostForm(Model model) {
 
@@ -57,16 +58,38 @@ public class PostController {
         return "redirect:/";
     }
 
-    @GetMapping("/edit/{id}")
-    public String editPost(@PathVariable Long id, HttpServletRequest request) {
+    @GetMapping("posts/{postId}/edit")
+    public String updatePostForm(@PathVariable Long postId, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        Post findPost = postService.findFetchMember(id);
-        Member findMember = findPost.getMember();
-        log.info("loginMember : {}", loginMember.getNickName());
-        log.info("findMember : {}", findMember.getNickName());
 
-        return "home";
+        Post findPost = postService.findFetchMember(postId);
+        Member findMember = findPost.getMember();
+
+        if (!findMember.getId().equals(loginMember.getId())) {
+            log.info("sessionError");
+            log.info("findMember = {}", findMember.getNickName());
+            log.info("loginMember = {}", loginMember.getNickName());
+            return "hello";
+        }
+
+        PostForm postForm = new PostForm();
+        postForm.setId(findPost.getId());
+        postForm.setTitle(findPost.getTitle());
+        postForm.setContent(findPost.getContent());
+        postForm.setMemberId(findMember.getId());
+
+        model.addAttribute("form", postForm);
+
+        return "posts/updatePostForm";
+    }
+
+    @PostMapping("posts/{postId}/edit")
+    public String updatePost(@ModelAttribute("form") PostForm form) {
+
+        postService.updatePost(form.getId(), form.getTitle(), form.getContent()); // 엔티티를 어설프게 넘기는 것이 아닌 폼에서 필요한 정보만 넘긴다
+
+        return "redirect:/";
     }
 
     @GetMapping("/posts")

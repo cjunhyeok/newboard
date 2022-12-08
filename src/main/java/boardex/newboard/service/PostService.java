@@ -10,7 +10,7 @@ public interface PostService {
 
     List<Post> findAll();
 
-    void updatePost(Long postId);
+    Long updatePost(Long postId, String title, String content);
 
     Post findById(Long postId);
 

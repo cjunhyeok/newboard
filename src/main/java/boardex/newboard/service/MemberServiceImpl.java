@@ -59,6 +59,11 @@ public class MemberServiceImpl implements MemberService{
         }
     }
 
+    @Override
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId);
+    }
+
     private void validateDuplicateMember(Member member) {
         List<Member> findMembers = memberRepository.findByNickName(member.getNickName());
         if (!findMembers.isEmpty()) {

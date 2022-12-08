@@ -24,6 +24,12 @@ public class Post extends BaseEntity{
     @JoinColumn(name = "member_id")
     private Member member; // 글 -> 회원 단방향 매핑
 
+    public void updatePost(String title, String content) {
+        this.title = title;
+        this.content = content;
+        this.setLastModifiedDate(LocalDateTime.now());
+    }
+
     public Post(String title, String content, Member member) {
         this.title = title;
         this.content = content;

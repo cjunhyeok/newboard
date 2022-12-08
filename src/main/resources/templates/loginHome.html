@@ -8,9 +8,6 @@
 <h2>홈화면</h2>
 <div>
     <h4 th:text="|로그인: ${member.name}|">로그인 사용자 이름</h4>
-    <button type="button" th:onclick="|location.href='@{/boards}'|">
-        게시글
-    </button>
     <div>
         <form th:action="@{/logout}" method="post">
             <button type="submit">로그아웃</button>
@@ -21,7 +18,7 @@
     <p>
         <a href="/members">회원 목록</a>
     </p>
-    <p class="lead">게시글</p>
+    <p>게시글</p>
     <p>
         <a href="/posts/new">게시글 등록</a>
         <a href="/posts">게시글 목록</a>
