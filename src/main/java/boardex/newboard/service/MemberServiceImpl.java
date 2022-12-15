@@ -2,6 +2,7 @@ package boardex.newboard.service;
 
 import boardex.newboard.domain.Member;
 import boardex.newboard.repository.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Slf4j
 @Transactional(readOnly = true)
 public class MemberServiceImpl implements MemberService{
 
@@ -66,6 +68,7 @@ public class MemberServiceImpl implements MemberService{
 
     private void validateDuplicateMember(Member member) {
         List<Member> findMembers = memberRepository.findByNickName(member.getNickName());
+        log.info("duplicateCheck!");
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 닉네임입니다.");
         }
