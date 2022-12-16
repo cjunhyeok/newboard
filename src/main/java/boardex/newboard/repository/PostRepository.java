@@ -16,4 +16,6 @@ public interface PostRepository {
 
     List<Post> findAllFetch();
 
+    List<Post> findAllFetchDynamic(SearchCondition cond);
+
 }
