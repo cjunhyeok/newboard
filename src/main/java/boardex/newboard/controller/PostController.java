@@ -3,6 +3,7 @@ package boardex.newboard.controller;
 import boardex.newboard.SessionConst;
 import boardex.newboard.domain.Member;
 import boardex.newboard.domain.Post;
+import boardex.newboard.repository.SearchCondition;
 import boardex.newboard.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,8 +94,8 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public String listPost(Model model) {
-        List<Post> posts = postService.findAllFetch();
+    public String listPost(@ModelAttribute("searchCondition") SearchCondition cond, Model model) {
+        List<Post> posts = postService.findAllFetchDynamic(cond);
         model.addAttribute("posts", posts);
 
         return "posts/postList";
