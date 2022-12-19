@@ -40,6 +40,7 @@ public class Member extends BaseEntity{
         this.setLastModifiedDate(LocalDateTime.now());
     }
 
+    //test
     public void simpleMember(String userId, String userPassword, String nickName){
         this.userId = userId;
         this.userPassword = userPassword;
@@ -48,13 +49,11 @@ public class Member extends BaseEntity{
         this.setLastModifiedDate(LocalDateTime.now());
     }
 
-    public void updateMember(String userId, String userPassword, String nickName, String name, String address, String birthday) {
-        this.userId = userId;
+    public void updateMember(String userPassword, String nickName, String name, String address) {
         this.userPassword = userPassword;
         this.nickName = nickName;
         this.name = name;
         this.address = address;
-        this.birthday = birthday;
         this.setLastModifiedDate(LocalDateTime.now());
     }
 }

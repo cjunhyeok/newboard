@@ -12,7 +12,7 @@ public interface MemberService {
 
     Member findByUserId(String userId);
 
-    void updateMember(Long memberId, Member member);
+    void updateMember(Long memberId, String userPassword, String nickname, String name, String address);
 
     Member login(String userId, String userPassword);
 

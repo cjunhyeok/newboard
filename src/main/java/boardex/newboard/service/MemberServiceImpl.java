@@ -45,9 +45,9 @@ public class MemberServiceImpl implements MemberService{
     // merge가 아닌 변경감지 사용
     @Override
     @Transactional
-    public void updateMember(Long memberId, Member member) {
+    public void updateMember(Long memberId, String userPassword, String nickname, String name, String address) {
         Member findMember = memberRepository.findById(memberId);
-        findMember.simpleMember(member.getUserId(), member.getUserPassword(), member.getNickName());
+        findMember.updateMember(userPassword, nickname, name, address);
     }
 
     @Override
