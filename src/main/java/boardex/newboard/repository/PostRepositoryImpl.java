@@ -56,30 +56,40 @@ public class PostRepositoryImpl implements PostRepository{
     }
 
     @Override
-    public List<Post> findAllFetchDynamic(SearchCondition cond) {
+    public List<Post> findAllFetchDynamic(String cond, String keyword, Long page) {
         return queryFactory
                 .select(post)
                 .from(post)
                 .join(post.member, member).fetchJoin()
-                .where(nickNameEq(cond.getNickName()), titleEq(cond.getTitle()))
+                .where(judgeCond(cond, keyword))
+                .offset((page - 1) * 10)
+                .limit(10 + (page - 1) * 10)
                 .fetch();
     }
 
-    private BooleanExpression nickNameEq(String nickName) {
-        if (!StringUtils.hasText(nickName)) {
-            return null;
+    private BooleanExpression judgeCond(String cond, String keyword) {
+        if (cond.equals("title")) {
+            return titleEq(keyword);
+        } else if(cond.equals("nickName")) {
+            return nickNameEq(keyword);
         } else {
-            return post.member.nickName.eq(nickName);
+            return null;
         }
     }
 
-    private BooleanExpression titleEq(String title) {
-        if (!StringUtils.hasText(title)) {
+    private BooleanExpression titleEq(String keyword) {
+        if (!StringUtils.hasText(keyword)) {
             return null;
         } else {
-            return post.title.eq(title);
+            return post.title.eq(keyword);
         }
     }
 
-
+    private BooleanExpression nickNameEq(String keyword) {
+        if (!StringUtils.hasText(keyword)) {
+            return null;
+        } else {
+            return post.member.nickName.eq(keyword);
+        }
+    }
 }

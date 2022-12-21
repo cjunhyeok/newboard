@@ -19,11 +19,17 @@ public class Comment extends BaseEntity{
     // 관계 매핑
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
-    private Post post; // 댓글 -> 게시글 단방향
+    private Post post; // 댓글 -> 게시글 양방향 (게시글이 다 게시글에서 fk 관리)
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    // 연관관계 편의 메서드
+    public void setPost(Post post) {
+        this.post = post;
+        post.getComments().add(this);
+    }
 
     public Comment() {
         this.setCreatedDate(LocalDateTime.now());

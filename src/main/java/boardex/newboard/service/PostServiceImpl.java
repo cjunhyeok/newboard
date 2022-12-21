@@ -2,7 +2,6 @@ package boardex.newboard.service;
 
 import boardex.newboard.domain.Post;
 import boardex.newboard.repository.PostRepository;
-import boardex.newboard.repository.SearchCondition;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,8 +60,8 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<Post> findAllFetchDynamic(SearchCondition cond) {
-        return postRepository.findAllFetchDynamic(cond);
+    public List<Post> findAllFetchDynamic(String cond, String keyword, Long page) {
+        return postRepository.findAllFetchDynamic(cond, keyword, page);
     }
 
 }

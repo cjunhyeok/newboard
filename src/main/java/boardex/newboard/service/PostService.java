@@ -1,7 +1,6 @@
 package boardex.newboard.service;
 
 import boardex.newboard.domain.Post;
-import boardex.newboard.repository.SearchCondition;
 
 import java.util.List;
 
@@ -19,6 +18,6 @@ public interface PostService {
 
     List<Post> findAllFetch();
 
-    List<Post> findAllFetchDynamic(SearchCondition cond);
+    List<Post> findAllFetchDynamic(String cond, String keyword, Long page);
 
 }
