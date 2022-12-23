@@ -62,6 +62,7 @@ public class PostRepositoryImpl implements PostRepository{
                 .from(post)
                 .join(post.member, member).fetchJoin()
                 .where(judgeCond(cond, keyword))
+                .orderBy(post.lastModifiedDate.desc())
                 .offset((page - 1) * 10)
                 .limit(10 + (page - 1) * 10)
                 .fetch();

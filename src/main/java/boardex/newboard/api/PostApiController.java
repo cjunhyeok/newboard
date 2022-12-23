@@ -23,8 +23,8 @@ public class PostApiController {
                         @RequestParam String keyword,
                         @RequestParam Long page) {
 
-        List<PostsRequest> collect = postService.findAllFetchDynamic(cond, keyword, page).stream()
-                .map(p -> new PostsRequest(p.getMember().getNickName(), p.getTitle(), page))
+        List<PostsResponse> collect = postService.findAllFetchDynamic(cond, keyword, page).stream()
+                .map(p -> new PostsResponse(p.getId(), p.getTitle(), p.getMember().getNickName(), p.getLastModifiedDate()))
                 .collect(Collectors.toList());
 
         return new Result(collect);
@@ -46,17 +46,10 @@ public class PostApiController {
     @Data
     @AllArgsConstructor
     static class PostsResponse {
+        private Long id;
         private String title;
         private String nickName;
         private LocalDateTime lastModifiedTime;
-    }
-
-    @Data
-    @AllArgsConstructor
-    static class PostsRequest {
-        private String nickName;
-        private String title;
-        private Long page;
     }
 
     // Post Dto
@@ -64,6 +57,7 @@ public class PostApiController {
     @AllArgsConstructor
     static class PostResponse {
         // post
+        private Long id;
         private String title;
         private String content;
         private LocalDateTime lastModifiedTime;
