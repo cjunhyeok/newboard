@@ -65,7 +65,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public Post findByIdFetchComment(Long postId) {
+    public Post findByIdFetchMemberComment(Long postId) {
         return postRepository.findByIdWithComment(postId);
     }
 

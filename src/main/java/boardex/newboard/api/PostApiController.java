@@ -1,10 +1,13 @@
 package boardex.newboard.api;
 
+import boardex.newboard.domain.Comment;
+import boardex.newboard.domain.Post;
 import boardex.newboard.service.PostService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,11 +33,13 @@ public class PostApiController {
         return new Result(collect);
     }
 
-//    @GetMapping("/api/posts/{id}")
-//    public void post(@PathVariable(name = "id") Long id) {
-//        Post findPosts = postService.findById(id);
-//        new PostsResponse(findPosts.getTitle(), findPosts.getMember().getNickName(), findPosts.getLastModifiedDate())
-//    }
+    @GetMapping("/api/posts/{id}")
+    public Result post(@PathVariable(name = "id") Long id) {
+        Post findPost = postService.findByIdFetchMemberComment(id);
+        PostResponse response = new PostResponse(findPost);
+
+        return new Result(response);
+    }
 
     @Data
     @AllArgsConstructor
@@ -54,7 +59,6 @@ public class PostApiController {
 
     // Post Dto
     @Data
-    @AllArgsConstructor
     static class PostResponse {
         // post
         private Long id;
@@ -66,8 +70,28 @@ public class PostApiController {
         private String nickName;
 
         // comment
-        private String commentNickName;
-        private String commentContent;
+        private List<CommentDto> comments;
 
+        public PostResponse(Post post) {
+            id = post.getId();
+            title = post.getTitle();
+            content = post.getContent();
+            lastModifiedTime = post.getLastModifiedDate();
+            nickName = post.getMember().getNickName();
+            comments = post.getComments().stream()
+                    .map(comment -> new CommentDto(comment))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Data
+    static class CommentDto {
+        private Long id;
+        private String content;
+
+        public CommentDto(Comment comment) {
+            id = comment.getId();
+            content = comment.getContent();
+        }
     }
 }
