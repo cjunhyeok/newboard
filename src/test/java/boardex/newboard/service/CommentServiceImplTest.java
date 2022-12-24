@@ -32,9 +32,12 @@ class CommentServiceImplTest {
         Post post = new Post("title1", "content1", member);
         Post post2 = new Post("title2", "content2", member);
 
-        Comment comment = new Comment("content1", post, member);
-        Comment comment2 = new Comment("content2", post, member);
-        Comment comment3 = new Comment("content3", post2, member);
+        Comment comment = new Comment("content1", member);
+        comment.setPost(post);
+        Comment comment2 = new Comment("content2", member);
+        comment2.setPost(post);
+        Comment comment3 = new Comment("content3", member);
+        comment3.setPost(post2);
 
         // when
         memberService.join(member);

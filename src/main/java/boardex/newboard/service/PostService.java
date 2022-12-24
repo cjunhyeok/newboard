@@ -20,4 +20,6 @@ public interface PostService {
 
     List<Post> findAllFetchDynamic(String cond, String keyword, Long page);
 
+    Post findByIdFetchComment(Long postId);
+
 }

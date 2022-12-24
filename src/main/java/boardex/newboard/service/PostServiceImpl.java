@@ -64,4 +64,9 @@ public class PostServiceImpl implements PostService{
         return postRepository.findAllFetchDynamic(cond, keyword, page);
     }
 
+    @Override
+    public Post findByIdFetchComment(Long postId) {
+        return postRepository.findByIdWithComment(postId);
+    }
+
 }

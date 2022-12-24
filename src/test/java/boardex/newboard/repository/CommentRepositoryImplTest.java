@@ -22,7 +22,8 @@ class CommentRepositoryImplTest {
         Member member = new Member();
         member.simpleMember("memberA", "pass1", "nickname1");
         Post post = new Post("title1", "content1", member);
-        Comment comment = new Comment("content1", post, member);
+        Comment comment = new Comment("content1", member);
+        comment.setPost(post);
 
         // when
         Long savedId = commentRepository.save(comment);

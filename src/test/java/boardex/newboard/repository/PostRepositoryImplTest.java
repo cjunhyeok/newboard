@@ -1,5 +1,6 @@
 package boardex.newboard.repository;
 
+import boardex.newboard.domain.Comment;
 import boardex.newboard.domain.Member;
 import boardex.newboard.domain.Post;
 import org.assertj.core.api.Assertions;
@@ -24,6 +25,9 @@ class PostRepositoryImplTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
 
     @Test
     @Transactional
@@ -100,5 +104,33 @@ class PostRepositoryImplTest {
 
         // then
         System.out.println(findPost.getMember().getNickName());
+    }
+
+    @Test
+    @Transactional
+    public void findByIdWithCommentTest() {
+        // given
+        Member member = new Member();
+        member.simpleMember("id1", "pass1", "nick1");
+        Member member2 = new Member();
+        member2.simpleMember("id2", "pass2", "nick2");
+        Comment comment1 = new Comment("comment1", member);
+        Comment comment2 = new Comment("comment2", member2);
+        Post post = new Post("title1", "content1", member);
+        comment1.setPost(post);
+        comment2.setPost(post);
+
+        // when
+        memberRepository.save(member);
+        memberRepository.save(member2);
+        Long savedId = postRepository.save(post);
+        commentRepository.save(comment1);
+        commentRepository.save(comment2);
+
+        Post findPost = postRepository.findByIdWithComment(savedId);
+
+        // then
+        System.out.println(findPost.getComments().get(0).getMember().getNickName());
+        System.out.println(findPost.getComments().get(1).getMember().getNickName());
     }
 }

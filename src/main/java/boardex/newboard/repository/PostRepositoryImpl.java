@@ -68,6 +68,15 @@ public class PostRepositoryImpl implements PostRepository{
                 .fetch();
     }
 
+    @Override
+    public Post findByIdWithComment(Long postId) {
+        return em.createQuery("select distinct p from Post p" +
+                " join fetch p.member m" +
+                " join fetch p.comments c" +
+                " join fetch c.member mm", Post.class)
+                .getSingleResult();
+    }
+
     private BooleanExpression judgeCond(String cond, String keyword) {
         if (cond.equals("title")) {
             return titleEq(keyword);

@@ -19,9 +19,9 @@ public class PostApiController {
     private final PostService postService;
 
     @GetMapping("/api/posts")
-    public Result posts(@RequestParam String cond,
-                        @RequestParam String keyword,
-                        @RequestParam Long page) {
+    public Result posts(@RequestParam(required = false) String cond,
+                        @RequestParam(required = false) String keyword,
+                        @RequestParam(defaultValue = "0") Long page) {
 
         List<PostsResponse> collect = postService.findAllFetchDynamic(cond, keyword, page).stream()
                 .map(p -> new PostsResponse(p.getId(), p.getTitle(), p.getMember().getNickName(), p.getLastModifiedDate()))

@@ -18,4 +18,6 @@ public interface PostRepository {
 
     List<Post> findAllFetchDynamic(String cond, String keyword, Long page);
 
+    Post findByIdWithComment(Long postId);
+
 }
