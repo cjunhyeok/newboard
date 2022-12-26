@@ -25,6 +25,11 @@ public class Comment extends BaseEntity{
     @JoinColumn(name = "member_id")
     private Member member;
 
+    // 댓글 수정
+    public void updateComment(String content) {
+        this.content = content;
+    }
+
     // 연관관계 편의 메서드
     public void setPost(Post post) {
         this.post = post;

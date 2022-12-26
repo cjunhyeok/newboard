@@ -6,11 +6,10 @@ import boardex.newboard.service.PostService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +38,14 @@ public class PostApiController {
         PostResponse response = new PostResponse(findPost);
 
         return new Result(response);
+    }
+
+    @PutMapping("/api/posts/{id}")
+    public UpdatePostResponse updatePost(@PathVariable(name = "id") Long id,
+                                         @RequestBody @Valid UpdatePostRequest request) {
+        postService.updatePost(id, request.getTitle(), request.getContent());
+        Post updatePost = postService.findById(id);
+        return new UpdatePostResponse(updatePost.getId());
     }
 
     @Data
@@ -93,5 +100,21 @@ public class PostApiController {
             id = comment.getId();
             content = comment.getContent();
         }
+    }
+
+    // updatePostDto
+    @Data
+    @AllArgsConstructor
+    static class UpdatePostRequest {
+        @NotEmpty
+        private String title;
+        private String content;
+
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class UpdatePostResponse {
+        private Long id;
     }
 }

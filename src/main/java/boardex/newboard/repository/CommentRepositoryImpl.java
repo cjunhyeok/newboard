@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 
 @Repository
 public class CommentRepositoryImpl implements CommentRepository{
@@ -24,10 +23,4 @@ public class CommentRepositoryImpl implements CommentRepository{
         return em.find(Comment.class, commentId);
     }
 
-    @Override
-    public List<Comment> findAllWithPost(Long postId) {
-        return em.createQuery("select c from Comment c where c.post.id = :post", Comment.class)
-                .setParameter("post", postId)
-                .getResultList();
-    }
 }

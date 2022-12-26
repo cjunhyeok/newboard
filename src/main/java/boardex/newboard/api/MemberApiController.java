@@ -34,9 +34,9 @@ public class MemberApiController {
                                              @RequestBody @Valid UpdateMemberRequest request) {
 
         memberService.updateMember(id, request.userId, request.userPassword, request.nickName, request.address);
-        Member findMember = memberService.findById(id);
+        Member updateMember = memberService.findById(id);
 
-        return new UpdateMemberResponse(findMember.getId());
+        return new UpdateMemberResponse(updateMember.getId());
     }
 
     @GetMapping("api/members")

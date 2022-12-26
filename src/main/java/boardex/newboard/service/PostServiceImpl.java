@@ -36,12 +36,10 @@ public class PostServiceImpl implements PostService{
 
     @Override
     @Transactional
-    public Long updatePost(Long postId, String title, String content) {
+    public void updatePost(Long postId, String title, String content) {
 
         Post findPost = postRepository.findById(postId);
         findPost.updatePost(title, content);
-
-        return findPost.getId();
     }
 
     @Override

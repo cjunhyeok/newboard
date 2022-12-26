@@ -4,10 +4,11 @@ import boardex.newboard.domain.Comment;
 import boardex.newboard.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class CommentServiceImpl implements CommentService{
 
     private final CommentRepository commentRepository;
@@ -18,12 +19,21 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
+    @Transactional
     public Long saveComment(Comment comment) {
         return commentRepository.save(comment);
     }
 
     @Override
-    public List<Comment> displayComment(Long postId) {
-        return commentRepository.findAllWithPost(postId);
+    public Comment findById(Long id) {
+        return commentRepository.findById(id);
     }
+
+    @Override
+    @Transactional
+    public void updateComment(Long id, String content) {
+        Comment findComment = commentRepository.findById(id);
+        findComment.updateComment(content);
+    }
+
 }
