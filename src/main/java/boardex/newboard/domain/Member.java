@@ -19,6 +19,7 @@ public class Member extends BaseEntity{
     private String userId;
     private String userPassword;
     private String nickName;
+    private String role;
 
     private String name;
     private String address;
@@ -33,6 +34,18 @@ public class Member extends BaseEntity{
         this.userId = userId;
         this.userPassword = userPassword;
         this.nickName = nickName;
+        this.name = name;
+        this.address = address;
+        this.birthday = birthday;
+        this.setCreatedDate(LocalDateTime.now());
+        this.setLastModifiedDate(LocalDateTime.now());
+    }
+
+    public Member(String userId, String userPassword, String nickName, String role, String name, String address, String birthday) {
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.nickName = nickName;
+        this.role = role;
         this.name = name;
         this.address = address;
         this.birthday = birthday;
@@ -55,5 +68,10 @@ public class Member extends BaseEntity{
         this.name = name;
         this.address = address;
         this.setLastModifiedDate(LocalDateTime.now());
+    }
+
+    // encode
+    public void encodePassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 }

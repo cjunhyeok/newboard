@@ -4,6 +4,7 @@ import boardex.newboard.domain.Member;
 import boardex.newboard.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +16,12 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired  // -> @RequiredArgsConstructor 대체가능
-    public MemberServiceImpl(MemberRepository memberRepository) {
+    @Autowired
+    public MemberServiceImpl(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // 회원가입
@@ -26,6 +29,7 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public Long join(Member member) {
         validateDuplicateMember(member); // 중복 nickname 체크
+        member.encodePassword(passwordEncoder.encode(member.getUserPassword())); // 비밀번호 암호화
         memberRepository.save(member);
         return member.getId();
     }
