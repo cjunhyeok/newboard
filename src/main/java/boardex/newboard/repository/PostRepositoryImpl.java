@@ -3,6 +3,7 @@ package boardex.newboard.repository;
 import boardex.newboard.domain.Post;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -14,6 +15,7 @@ import static boardex.newboard.domain.QMember.*;
 import static boardex.newboard.domain.QPost.*;
 
 @Repository
+@Slf4j
 public class PostRepositoryImpl implements PostRepository{
 
     @PersistenceContext // Entity Manager 자동주입
@@ -73,7 +75,9 @@ public class PostRepositoryImpl implements PostRepository{
         return em.createQuery("select distinct p from Post p" +
                 " join fetch p.member m" +
                 " join fetch p.comments c" +
-                " join fetch c.member mm", Post.class)
+                " join fetch c.member mm" +
+                " where p.id = :postId", Post.class)
+                .setParameter("postId", postId)
                 .getSingleResult();
     }
 

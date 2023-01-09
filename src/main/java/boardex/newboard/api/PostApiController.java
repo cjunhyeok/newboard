@@ -5,7 +5,9 @@ import boardex.newboard.domain.Post;
 import boardex.newboard.service.PostService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,14 +18,15 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class PostApiController {
 
     private final PostService postService;
 
     @GetMapping("/api/posts")
-    public Result posts(@RequestParam(required = false) String cond,
+    public Result posts(@RequestParam(defaultValue = "no") String cond,
                         @RequestParam(required = false) String keyword,
-                        @RequestParam(defaultValue = "0") Long page) {
+                        @RequestParam(defaultValue = "1") Long page) {
 
         List<PostsResponse> collect = postService.findAllFetchDynamic(cond, keyword, page).stream()
                 .map(p -> new PostsResponse(p.getId(), p.getTitle(), p.getMember().getNickName(), p.getLastModifiedDate()))
@@ -43,6 +46,7 @@ public class PostApiController {
     @PutMapping("/api/posts/{id}")
     public UpdatePostResponse updatePost(@PathVariable(name = "id") Long id,
                                          @RequestBody @Valid UpdatePostRequest request) {
+
         postService.updatePost(id, request.getTitle(), request.getContent());
         Post updatePost = postService.findById(id);
         return new UpdatePostResponse(updatePost.getId());
@@ -50,6 +54,7 @@ public class PostApiController {
 
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     static class Result<T> {
         private T data;
     }
@@ -57,6 +62,7 @@ public class PostApiController {
     // posts Dto
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     static class PostsResponse {
         private Long id;
         private String title;
@@ -66,6 +72,7 @@ public class PostApiController {
 
     // Post Dto
     @Data
+    @NoArgsConstructor
     static class PostResponse {
         // post
         private Long id;
@@ -92,28 +99,34 @@ public class PostApiController {
     }
 
     @Data
+    @NoArgsConstructor
     static class CommentDto {
         private Long id;
         private String content;
+        private String nickName;
+        private Long memberId;
 
         public CommentDto(Comment comment) {
             id = comment.getId();
             content = comment.getContent();
+            nickName = comment.getMember().getNickName();
+            memberId = comment.getMember().getId();
         }
     }
 
     // updatePostDto
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     static class UpdatePostRequest {
         @NotEmpty
         private String title;
         private String content;
-
     }
 
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     static class UpdatePostResponse {
         private Long id;
     }

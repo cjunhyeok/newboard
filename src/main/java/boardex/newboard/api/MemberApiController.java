@@ -33,7 +33,7 @@ public class MemberApiController {
     public UpdateMemberResponse updateMember(@PathVariable("id") Long id,
                                              @RequestBody @Valid UpdateMemberRequest request) {
 
-        memberService.updateMember(id, request.userId, request.userPassword, request.nickName, request.address);
+        memberService.updateMember(id, request.userPassword, request.nickName, request.name, request.address);
         Member updateMember = memberService.findById(id);
 
         return new UpdateMemberResponse(updateMember.getId());
@@ -43,7 +43,7 @@ public class MemberApiController {
     public Result members() {
 
         List<MembersDto> collect = memberService.findMembers().stream()
-                .map(m -> new MembersDto(m.getName()))
+                .map(m -> new MembersDto(m.getNickName()))
                 .collect(Collectors.toList());
 
         return new Result(collect);

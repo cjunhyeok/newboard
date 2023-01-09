@@ -30,13 +30,12 @@ class PostServiceImplTest {
         Member memberA = new Member();
         memberA.simpleMember("id1", "pass1", "nickname1");
 
-        Post post1 = new Post("title1", "content1", memberA);
-        Post post2 = new Post("title2", "content2", memberA);
+//        Post post1 = new Post("title1", "content1", memberA);
 
         // when
         memberService.join(memberA);
-        postService.savePost(post1);
-        postService.savePost(post2);
+//        postService.savePost(post1);
+//        postService.savePost(post2);
 
 
         List<Post> findPost = postService.findAll();

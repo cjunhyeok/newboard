@@ -51,7 +51,8 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public void updateMember(Long memberId, String userPassword, String nickname, String name, String address) {
         Member findMember = memberRepository.findById(memberId);
-        findMember.updateMember(userPassword, nickname, name, address);
+        findMember.updateMember(passwordEncoder.encode(userPassword), nickname, name, address);
+
     }
 
     @Override
