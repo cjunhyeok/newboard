@@ -81,6 +81,13 @@ public class PostRepositoryImpl implements PostRepository{
                 .getSingleResult();
     }
 
+    @Override
+    public Long countAllPost() {
+        return em.createQuery("select count(p) from Post p", Long.class)
+                .getSingleResult();
+    }
+
+
     private BooleanExpression judgeCond(String cond, String keyword) {
         if (cond.equals("title")) {
             return titleEq(keyword);

@@ -22,4 +22,6 @@ public interface PostService {
 
     Post findByIdFetchMemberComment(Long postId);
 
+    Long countAllPost();
+
 }

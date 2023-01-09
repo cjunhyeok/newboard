@@ -76,4 +76,9 @@ public class PostServiceImpl implements PostService{
         return postRepository.findByIdWithComment(postId);
     }
 
+    @Override
+    public Long countAllPost() {
+        return postRepository.countAllPost();
+    }
+
 }

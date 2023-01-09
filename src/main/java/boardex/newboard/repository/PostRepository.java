@@ -20,4 +20,6 @@ public interface PostRepository {
 
     Post findByIdWithComment(Long postId);
 
+    Long countAllPost();
+
 }

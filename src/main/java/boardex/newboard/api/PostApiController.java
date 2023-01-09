@@ -32,7 +32,9 @@ public class PostApiController {
                 .map(p -> new PostsResponse(p.getId(), p.getTitle(), p.getMember().getNickName(), p.getLastModifiedDate()))
                 .collect(Collectors.toList());
 
-        return new Result(collect);
+        Long postCount = postService.countAllPost();
+
+        return new Result(collect, postCount);
     }
 
     @GetMapping("/api/posts/{id}")
@@ -57,6 +59,11 @@ public class PostApiController {
     @NoArgsConstructor
     static class Result<T> {
         private T data;
+        private Long count;
+
+        public Result(T data) {
+            this.data = data;
+        }
     }
 
     // posts Dto
