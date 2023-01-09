@@ -1,6 +1,8 @@
 package boardex.newboard.service;
 
+import boardex.newboard.domain.Member;
 import boardex.newboard.domain.Post;
+import boardex.newboard.repository.MemberRepository;
 import boardex.newboard.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +17,23 @@ import java.util.List;
 public class PostServiceImpl implements PostService{
 
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, MemberRepository memberRepository) {
         this.postRepository = postRepository;
+        this.memberRepository = memberRepository;
     }
-
 
     @Override
     @Transactional
-    public Long savePost(Post post) {
+    public Long savePost(Long memberId, String content, String title) {
+        //
+        Member findMember = memberRepository.findById(memberId);
+
+        Post post = new Post();
+        post.createPost(findMember, content, title);
+
         postRepository.save(post);
         return post.getId();
     }

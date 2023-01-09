@@ -29,22 +29,24 @@ public class Post extends BaseEntity{
     @OneToMany(mappedBy = "post",fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
+    public Post() {
+        this.setCreatedDate(LocalDateTime.now());
+        this.setLastModifiedDate(LocalDateTime.now());
+    }
+
+    // create
+    public void createPost(Member member, String title, String content) {
+        this.member = member;
+        this.title = title;
+        this.content = content;
+        this.setCreatedDate(LocalDateTime.now());
+        this.setLastModifiedDate(LocalDateTime.now());
+    }
+
+    // update
     public void updatePost(String title, String content) {
         this.title = title;
         this.content = content;
-        this.setLastModifiedDate(LocalDateTime.now());
-    }
-
-    public Post(String title, String content, Member member) {
-        this.title = title;
-        this.content = content;
-        this.member = member;
-        this.setCreatedDate(LocalDateTime.now());
-        this.setLastModifiedDate(LocalDateTime.now());
-    }
-
-    public Post() {
-        this.setCreatedDate(LocalDateTime.now());
         this.setLastModifiedDate(LocalDateTime.now());
     }
 }

@@ -36,6 +36,12 @@ public class Comment extends BaseEntity{
         post.getComments().add(this);
     }
 
+    public void createComment(Member member, Post post, String content) {
+        this.member = member;
+        this.content = content;
+        setPost(post);
+    }
+
     public Comment() {
         this.setCreatedDate(LocalDateTime.now());
         this.setLastModifiedDate(LocalDateTime.now());

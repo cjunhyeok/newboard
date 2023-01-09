@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PostService {
 
-    Long savePost(Post post);
+    Long savePost(Long memberId, String title, String content);
 
     List<Post> findAll();
 

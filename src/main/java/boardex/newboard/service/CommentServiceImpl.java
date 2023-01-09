@@ -1,7 +1,11 @@
 package boardex.newboard.service;
 
 import boardex.newboard.domain.Comment;
+import boardex.newboard.domain.Member;
+import boardex.newboard.domain.Post;
 import boardex.newboard.repository.CommentRepository;
+import boardex.newboard.repository.MemberRepository;
+import boardex.newboard.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,15 +16,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentServiceImpl implements CommentService{
 
     private final CommentRepository commentRepository;
+    private final MemberRepository memberRepository;
+    private final PostRepository postRepository;
 
     @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, MemberRepository memberRepository, PostRepository postRepository) {
         this.commentRepository = commentRepository;
+        this.memberRepository = memberRepository;
+        this.postRepository = postRepository;
     }
 
     @Override
     @Transactional
-    public Long saveComment(Comment comment) {
+    public Long saveComment(Long memberId, Long postId, String content) {
+
+        Member findMember = memberRepository.findById(memberId);
+        Post findPost = postRepository.findById(postId);
+
+        Comment comment = new Comment();
+        comment.createComment(findMember, findPost, content);
+
         return commentRepository.save(comment);
     }
 

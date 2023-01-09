@@ -5,7 +5,7 @@ import boardex.newboard.domain.Comment;
 
 public interface CommentService {
 
-    Long saveComment(Comment comment);
+    Long saveComment(Long memberId, Long postId, String content);
 
     Comment findById(Long id);
 

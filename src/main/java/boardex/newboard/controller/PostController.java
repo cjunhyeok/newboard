@@ -51,9 +51,7 @@ public class PostController {
         HttpSession session = request.getSession();
         Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
-        Post post = new Post(form.getTitle(), form.getContent(), loginMember);
-
-        postService.savePost(post);
+        postService.savePost(loginMember.getId(), form.getTitle(), form.getContent());
 
         return "redirect:/";
     }
