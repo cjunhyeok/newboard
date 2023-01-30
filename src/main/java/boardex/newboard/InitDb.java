@@ -4,6 +4,8 @@ import boardex.newboard.domain.Member;
 import boardex.newboard.service.CommentService;
 import boardex.newboard.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,26 +33,30 @@ public class InitDb {
         private final PostService postService;
         private final CommentService commentService;
 
+        @Autowired
+        private PasswordEncoder passwordEncoder;
+
         public void dbInit() {
 
             String title = "title";
             String content = "content";
             String commentContent = "댓글입니다.";
 
+
             Member member = new Member();
-            member.simpleMember("userId", "password123", "nick");
+            member.simpleMember("userId", passwordEncoder.encode("password123"), "nick", "ROLE_USER");
             em.persist(member);
 
             Member member2 = new Member();
-            member2.simpleMember("userId2", "password123", "nick2");
+            member2.simpleMember("userId2", passwordEncoder.encode("password123"), "nick2", "ROLE_USER");
             em.persist(member2);
 
             Member member3 = new Member();
-            member3.simpleMember("userId3", "password123", "nick3");
+            member3.simpleMember("userId3", passwordEncoder.encode("password123"), "nick3", "ROLE_USER");
             em.persist(member3);
 
             Member member4 = new Member();
-            member4.simpleMember("userId4", "password123", "nick4");
+            member4.simpleMember("userId4", passwordEncoder.encode("password123"), "nick4", "ROLE_USER");
             em.persist(member4);
 
             Long postId1 = postService.savePost(member.getId(), title, content);
