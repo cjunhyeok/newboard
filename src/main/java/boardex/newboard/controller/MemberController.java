@@ -1,19 +1,22 @@
 package boardex.newboard.controller;
 
-import boardex.newboard.SessionConst;
+import boardex.newboard.controller.form.MemberForm;
 import boardex.newboard.domain.Member;
 import boardex.newboard.service.MemberService;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -22,17 +25,18 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, PasswordEncoder passwordEncoder) {
         this.memberService = memberService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/members/new")
     public String createForm(Model model) {
         model.addAttribute("memberForm", new MemberForm());
 
-        log.info("createForm");
         return "members/createMemberForm";
     }
 
@@ -43,7 +47,7 @@ public class MemberController {
             return "members/createMemberForm";
         }
 
-        Member member = new Member(form.getUserId(), form.getUserPassword(), form.getNickName(),
+        Member member = new Member(form.getUserId(), passwordEncoder.encode(form.getUserPassword()), form.getNickName(),
                 form.getName(), form.getAddress(), form.getBirthday());
 
         memberService.join(member);
@@ -59,40 +63,44 @@ public class MemberController {
         return "members/memberList";
     }
 
-    @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
-        return "login/loginForm";
+    @GetMapping("/members/{id}")
+    public String member(@PathVariable(name = "id") Long id, Model model) {
+
+        boolean login = false;
+
+        Member principal = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long loginId = principal.getId();
+
+        Member findMember = memberService.findById(id);
+        MemberDto memberDto = new MemberDto(findMember.getNickName(),
+                                            findMember.getName(),
+                                            findMember.getAddress(),
+                                            findMember.getBirthday());
+
+        if (loginId.equals(id)) {
+            login = true;
+            model.addAttribute("login", login);
+            log.info("loginMember");
+        }
+
+        model.addAttribute("member", memberDto);
+
+        return "members/member";
+
+
     }
 
-    @PostMapping("/login")
-    public String login(@Valid @ModelAttribute("loginForm") LoginForm form, BindingResult result, HttpServletRequest request) {
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static class MemberDto {
 
-        if (result.hasErrors()) {
-            return "login/loginForm";
-        }
+        private String nickName;
 
-        Member loginMember = memberService.login(form.getUserId(), form.getUserPassword());
-
-        if (loginMember == null) {
-            result.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "login/loginForm";
-        }
-
-        // 로그인 성공 처리
-        // 세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
-        HttpSession session = request.getSession();
-        // 세션에 로그인 회원 정보 보관
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-
-        return "redirect:/";
-    }
-
-    @PostMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        return "redirect:/";
+        private String name;
+        private String address;
+        private String birthday;
     }
 }
+
+

@@ -20,8 +20,9 @@ class CommentRepositoryImplTest {
     public void saveComment() {
         // given
         Member member = new Member();
-        member.simpleMember("memberA", "pass1", "nickname1");
-        Post post = new Post("title1", "content1", member);
+        member.simpleMember("memberA", "pass1", "nickname1", "ROLE_USER");
+        Post post = new Post();
+        post.createPost(member, "title1", "content1");
         Comment comment = new Comment("content1", member);
         comment.setPost(post);
 

@@ -5,8 +5,10 @@
     <h1>로그인</h1>
     <p>아이디와 비밀번호를 입력해주세요</p>
     <div>
+        <div th:if="${error}">
+            <span th:text="${exception}">잘못된 아이디 혹은 비밀번호입니다.</span>
+        </div>
         <form th:action="@{/login}" method="post">
-<!--        <form action="/login" method="post">-->
             <div>
                 <input type="text" name="username" placeholder="아이디" required="required" autofocus="autofocus">
             </div>

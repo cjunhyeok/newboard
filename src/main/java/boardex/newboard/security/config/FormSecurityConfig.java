@@ -1,7 +1,7 @@
 package boardex.newboard.security.config;
 
 import boardex.newboard.security.provider.CustomAuthenticationProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -12,27 +12,24 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 @Order(1)
+@RequiredArgsConstructor
 public class FormSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public FormSecurityConfig(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        this.userDetailsService = userDetailsService;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final AuthenticationSuccessHandler formAuthenticationSuccessHandler;
+    private final AuthenticationFailureHandler formAuthenticationFailureHandler;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
         return new CustomAuthenticationProvider(userDetailsService, passwordEncoder);
     }
-
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -44,18 +41,25 @@ public class FormSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/members/new", "/login", "/logout").permitAll()
-                .antMatchers( "/posts", "/posts/{postId}").permitAll()
-                .antMatchers("/members", "/posts").hasRole("USER")
+                .antMatchers("/", "/members/new", "/login/**", "/logout").permitAll()
+                .antMatchers("/posts/new", "/posts/edit/**").hasRole("USER")
+                .antMatchers( "/posts", "/posts/**").permitAll()
+                .antMatchers("/members/**").hasRole("USER")
                 .anyRequest().authenticated()
                 ;
 
         http
                 .formLogin()
-                .loginPage("/login/loginForm.html")
+                .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/")
+                .successHandler(formAuthenticationSuccessHandler)
+                .failureHandler(formAuthenticationFailureHandler)
         ;
+
+        http
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/");
 
         http.csrf().disable();
     }

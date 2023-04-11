@@ -15,9 +15,10 @@ public class Member extends BaseEntity{
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
-
+    @Column(unique = true) // db unique 제약
     private String userId;
     private String userPassword;
+    @Column(unique = true)
     private String nickName;
     private String role;
 
@@ -54,10 +55,11 @@ public class Member extends BaseEntity{
     }
 
     //test
-    public void simpleMember(String userId, String userPassword, String nickName){
+    public void simpleMember(String userId, String userPassword, String nickName, String role){
         this.userId = userId;
         this.userPassword = userPassword;
         this.nickName = nickName;
+        this.role = role;
         this.setCreatedDate(LocalDateTime.now());
         this.setLastModifiedDate(LocalDateTime.now());
     }

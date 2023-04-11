@@ -74,8 +74,8 @@ public class PostRepositoryImpl implements PostRepository{
     public Post findByIdWithComment(Long postId) {
         return em.createQuery("select distinct p from Post p" +
                 " join fetch p.member m" +
-                " join fetch p.comments c" +
-                " join fetch c.member mm" +
+                " left join fetch p.comments c" +
+//                " join fetch c.member mm" +
                 " where p.id = :postId", Post.class)
                 .setParameter("postId", postId)
                 .getSingleResult();

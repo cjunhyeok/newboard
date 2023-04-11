@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+</head>
+<body>
+<div th:replace="layout/top::header"></div>
+<div>
+    <th:block th:if="${login}">
+        <a th:href="@{/posts/edit/{postId}(postId=${post.id})}">게시글 수정</a>
+    </th:block>
+    <table border="1">
+        <tr>
+            <td th:text = "닉네임"></td>
+            <td th:text="제목"></td>
+            <td th:text="날짜"></td>
+        </tr>
+        <tr>
+            <td th:text="${post.member.nickName}"></td>
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.lastModifiedDate}"></td>
+        </tr>
+    </table>
+    <h2 th:text="${post.content}"></h2>
+
+    <form action="/comments/new" method="post">
+        <input sec:authorize="isAuthenticated()" type="text" th:field="${commentForm.content}" placeholder="댓글작성">
+        <input type="hidden" th:field="${commentForm.memberId}">
+        <input type="hidden" th:field="${commentForm.postId}">
+        <button sec:authorize="isAuthenticated()" type="submit">작성</button>
+    </form>
+    <table>
+        <tr>
+            <td th:text="닉네임"></td>
+            <td th:text="댓글"></td>
+        </tr>
+        <div th:each="comment : ${post.comments}">
+            <p th:text="|${comment.member.nickName} ${comment.content}|"></p>
+<!--            <p ></p>-->
+
+            <p th:each="myComment : ${myCommentId}">
+                <th:block th:if="${myComment.toString().equals(comment.id.toString)}">
+                    <a th:href="@{/comments/edit/{id} (id = ${comment.id})}">댓글2 수정</a>
+                </th:block>
+            </p>
+        </div>
+    </table>
+</div>
+</body>

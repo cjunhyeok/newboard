@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@Order(0)
+@Order(2)
 public class AjaxSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override

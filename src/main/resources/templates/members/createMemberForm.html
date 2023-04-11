@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div>
+<div th:replace="layout/top::header"></div>
   <form role="form" action="/members/new" th:object="${memberForm}" method="post">
     <div>
         <label th:for="userId">Id</label>

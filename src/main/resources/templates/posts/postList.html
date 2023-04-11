@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div>
+<div th:replace="layout/top::header"></div>
     <thead>
     <tr>
         <th>#</th>
@@ -21,10 +21,11 @@
     <tr th:each="post : ${posts}">
         <td th:text="${post.member.nickName}"></td>
         <td th:text="${post.title}"></td>
-        <td th:text="${post.content}"></td>
+        <a th:href="@{/posts/{id} (id = ${post.id})}">
+            <td th:text="${post.content}"></td>
+        </a>
         <td th:text="${post.lastModifiedDate}"></td>
         <td>
-            <a href="#" th:href="@{/posts/{id}/edit (id=${post.id})}" th:if="${post.member.id == session.loginMember.id}" role="button">수정</a>
         </td>
         <br>
     </tr>

@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div>
+<div th:replace="layout/top::header"></div>
   <form role="form" action="/posts/new" th:object="${postForm}" method="post">
     <div>
         <label th:for="title">제목</label>

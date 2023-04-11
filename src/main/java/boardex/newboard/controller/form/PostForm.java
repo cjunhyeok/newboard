@@ -1,4 +1,4 @@
-package boardex.newboard.controller;
+package boardex.newboard.controller.form;
 
 import lombok.Getter;
 import lombok.Setter;

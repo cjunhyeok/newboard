@@ -1,26 +1,20 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <title>Hello</title>
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta charset="UTF-8">
+    <title>회원가입</title>
 </head>
-
 <body>
-    <h1>BOARD</h1>
-    <p>회원 기능</p>
-    <p>
-        <a href="/members/new">회원 가입</a>
-        <a href="/members">회원 목록</a>
-    </p>
-    <p class="lead">게시글</p>
-    <p>
-        <a href="/posts/new">게시글 등록</a>
-        <a href="/posts">게시글 목록</a>
-    </p>
-    <p class="lead">로그인</p>
-    <p>
-        <a href="/login">로그인</a>
-        <a href="/logout">로그아웃</a>
-    </p>
+<div th:replace="layout/top::header"></div>
+    <h1>new-board</h1>
+    <p>회원기능</p>
+    <p sec:authorize="isAnonymous()"><a th:href="@{/members/new}">회원가입</a></p>
+    <p>게시글 기능</p>
+    <p><a th:href="@{/posts}">게시글 목록</a></p>
+    <p><a th:href="@{/posts/new}">게시글 작성</a></p>
+    <p></p>
+
+
 </body>
-</html>
+

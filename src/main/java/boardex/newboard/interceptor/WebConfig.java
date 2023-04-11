@@ -1,4 +1,4 @@
-package boardex.newboard;
+package boardex.newboard.interceptor;
 
 import boardex.newboard.interceptor.LogInterceptor;
 import boardex.newboard.interceptor.LoginCheckInterceptor;

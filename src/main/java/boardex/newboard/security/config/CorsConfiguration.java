@@ -1,4 +1,4 @@
-package boardex.newboard;
+package boardex.newboard.security.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -12,6 +12,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedHeaders("*")
                 .allowedMethods("*")
+                .allowedOrigins("http://192.168.0.15:8080")
                 .allowCredentials(true)
         ;
     }

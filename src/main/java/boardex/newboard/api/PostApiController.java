@@ -8,8 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
@@ -25,15 +29,16 @@ public class PostApiController {
 
     @GetMapping("/api/posts")
     public Result posts(@RequestParam(defaultValue = "no") String cond,
-                        @RequestParam(required = false) String keyword,
-                        @RequestParam(defaultValue = "1") Long page) {
+                                     @RequestParam(required = false) String keyword,
+                                     @RequestParam(defaultValue = "1") Long page,
+                                     HttpServletResponse response) {
 
         List<PostsResponse> collect = postService.findAllFetchDynamic(cond, keyword, page).stream()
                 .map(p -> new PostsResponse(p.getId(), p.getTitle(), p.getMember().getNickName(), p.getLastModifiedDate()))
                 .collect(Collectors.toList());
 
         Long postCount = postService.countAllPost();
-
+//        return collect;
         return new Result(collect, postCount);
     }
 
